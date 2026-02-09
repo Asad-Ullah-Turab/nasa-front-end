@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { Appear, Button, Loading, Paragraph } from "arwes";
 import Clickable from "../components/Clickable";
+import { useHistory } from "react-router-dom";
 
 const Launch = (props) => {
   const selectorBody = useMemo(() => {
@@ -12,6 +13,8 @@ const Launch = (props) => {
   }, [props.planets]);
 
   const today = new Date().toISOString().split("T")[0];
+
+  const history = useHistory();
 
   return (
     <Appear id="launch" animate show={props.entered}>
@@ -62,21 +65,37 @@ const Launch = (props) => {
           {selectorBody}
         </select>
         <Clickable>
-          <Button
-            animate
-            show={props.entered}
-            type="submit"
-            layer="success"
-            disabled={props.isPendingLaunch}
-          >
-            Launch Mission ✔
-          </Button>
+          {props.loginData != null ? (
+            <Button
+              animate
+              show={props.entered}
+              type="submit"
+              layer="success"
+              disabled={props.isPendingLaunch}
+            >
+              Launch Mission ✔
+            </Button>
+          ) : (
+            <Button
+              onClick={() => {
+                history.push("/login");
+              }}
+            >
+              Login
+            </Button>
+          )}
         </Clickable>
         {props.isPendingLaunch && <Loading animate small />}
       </form>
+      <div style={{ marginTop: "20px" }}>
+        {props.loginData && (
+          <Button animate layer="primary" onClick={props.logout}>
+            Logout
+          </Button>
+        )}
+      </div>
     </Appear>
   );
 };
 
 export default Launch;
-
