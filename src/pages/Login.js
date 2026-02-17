@@ -7,8 +7,8 @@ const Login = (props) => {
         Please log in to schedule a mission launch for interstellar travel to
         one of the Kepler Exoplanets.
       </Paragraph>
-      <Button animate layer="primary" onClick={props.login}>
-        Log in with Google
+      <Button animate layer="primary" /* onClick={props.login} */>
+        <a href="auth/google">Log in with Google</a>
       </Button>
     </Appear>
   );
